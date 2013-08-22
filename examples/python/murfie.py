@@ -22,7 +22,6 @@ def authenticate():
 	apiResult = json.loads(response.read())
 	conn.close()
 
-	#global authtoken = apijson['user']['token']
 	return apiResult['user']['token']
 
 def pickDisc():
@@ -56,10 +55,17 @@ def playDisc(disc):
 
 		print('\nNow Playing %s by %s' % (track['title'], disc['album']['main_artist']))
 
-		mediaUri = 'http://pocky.herokuapp.com/?discId%dtrackId%dtoken%s' % (disc['id'],track['id'],authtoken)
+		# get the media Uri
+		#mediaUri = 'http://pocky.herokuapp.com/?discId%dtrackId%dtoken%s' % (disc['id'],track['id'],authtoken)
+		conn.request('GET', '/api/discs/%s/tracks/%s.json?auth_token=%s' % (disc['id'],track['id'],authtoken))
+		response = conn.getresponse()
+		apiResult = json.loads(response.read())
+		mediaUri = '\"%s\"' % apiResult['track']['url']
+
+		#mediaUri = mediaUri.replace('&', '&amp;')
 
 		playerProgram = 'mpg123'
-		playerArguments = ['-q', '-C', mediaUri]
+		playerArguments = ['-q', mediaUri]
 		command = [playerProgram]
 		command.extend(playerArguments)
 		call(command)

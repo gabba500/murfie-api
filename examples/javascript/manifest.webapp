@@ -1,0 +1,13 @@
+{
+  "name": "Murfie",
+  "description": "Buy, sell, trade & stream music",
+  "launch_path": "/index.html",
+  "icons": {
+    "128": "/images/app_icon_128.png"
+  },
+  "developer": {
+    "name": "Murfie",
+    "url": "https://www.murfie.com"
+  },
+  "default_locale": "en"
+}
